@@ -1,0 +1,28 @@
+body {
+    background-color: #AAAAAA;
+}
+
+#buttons {
+    overflow: hidden;
+}
+
+.button {
+    background-color: #777777;
+    border: 1px solid #111111;
+    width: 20%;
+    height: 9%;
+    float: left;
+    margin: 2.2%;
+    display: table-cell;
+    vertical-align: middle;
+    font-size: 50%;
+}
+
+#touchpad {
+    margin-left: auto;
+    margin-right: auto;
+    width: 99%;
+    height: 80%;
+    border: 1px solid #111111;
+    background-color: #777777;
+}

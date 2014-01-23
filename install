@@ -1,0 +1,12 @@
+#!/bin/bash
+
+sudo apt-get install python-xlib
+sudo pip install pyuserinput
+sudo pip install gevent-websocket
+sudo apt-get install libxtst-dev
+
+# Might be nicer to server this up with flask...
+sudo apt-get install apache2
+sudo cp -r * /var/www/
+
+echo -e "\n\nNow run the server with: \"./server.py\""
