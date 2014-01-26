@@ -5,6 +5,11 @@ $( document ).ready(function() {
         connection.send("inputtext." + prompt(""));
     });
 
+    $("#enter").click( function() {
+        connection.send("b.enter");
+    });
+
+
     $("#backspace").click( function() {
         connection.send("b.backspace");
     });

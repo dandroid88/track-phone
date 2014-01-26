@@ -56,6 +56,8 @@ def handle_message(message):
         if 't' in message_type:
             handle_touch(value)
         if 'b' in message_type:
+            if 'enter' in value:
+                k.tap_key(k.enter_key)
             if 'backspace' in value:
                 k.tap_key(k.backspace_key)
             if 'left' in value:

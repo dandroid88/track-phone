@@ -1,9 +1,12 @@
 #!/bin/bash
 
+sudo apt-get install python-dev
+sudo apt-get install python-pip
 sudo apt-get install python-xlib
+sudo apt-get install libxtst-dev
+
 sudo pip install pyuserinput
 sudo pip install gevent-websocket
-sudo apt-get install libxtst-dev
 
 # Might be nicer to server this up with flask...
 sudo apt-get install apache2
