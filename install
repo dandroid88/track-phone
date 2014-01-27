@@ -1,15 +1,21 @@
 #!/bin/bash
 
-sudo apt-get install python-dev
-sudo apt-get install python-pip
-sudo apt-get install python-xlib
-sudo apt-get install libxtst-dev
+# Install aptitude packages
+sudo apt-get -y install python-dev
+sudo apt-get -y install python-pip
+sudo apt-get -y install python-xlib
+sudo apt-get -y install libxtst-dev
 
+# Install pip packages
 sudo pip install pyuserinput
 sudo pip install gevent-websocket
 
 # Might be nicer to server this up with flask...
-sudo apt-get install apache2
-sudo cp -r * /var/www/
+sudo apt-get -y install apache2
+sudo cp -rf {*.html,*.js,*.css,jquery} /var/www/
 
-echo -e "\n\nNow run the server with: \"./server.py\""
+# Install service
+sudo mkdir -p /opt/track-phone
+sudo cp -f server.py /opt/track-phone
+sudo cp -f track-phone.conf /etc/init/track-phone.conf
+sudo sed -i "s/USERNAME/$USER/g" /etc/init/track-phone.conf
