@@ -65,7 +65,7 @@ def handle_message(message):
             if 'right' in value:
                 m.click(*m.position(), button=2)
     except Exception as e:
-        print 'Failure' + str(e)
+        print 'Failure ' + str(e)
 
 def handle_touch(value):
     print value
