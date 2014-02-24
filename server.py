@@ -5,6 +5,7 @@ from pykeyboard import PyKeyboard
 import time
 
 SPEED = 3
+SCROLL_STROKE_SIZE = 3
 
 class Position:
     def __init__(self, x, y):
@@ -30,6 +31,10 @@ class HTMLMote(WebSocketApplication):
 m = PyMouse()
 k = PyKeyboard()
 
+##############################
+# Trackpad related global vars
+##############################
+
 last_server_position = Position(*m.position())
 last_client_position = None
 last_move_time = time.time()
@@ -39,6 +44,11 @@ last_release = None
 last_click_time = time.time()
 
 long_click = False
+
+############################
+# Scroll related global vars
+############################
+last_client_scroll_position = None
 
 def calc_new_server_position(new_client_position):
     delta_x = (new_client_position.x - last_client_position.x) * SPEED
@@ -55,6 +65,8 @@ def handle_message(message):
             move_mouse(value)
         if 't' in message_type:
             handle_touch(value)
+        if 's' in message_type:
+            handle_scroll(value)
         if 'b' in message_type:
             if 'enter' in value:
                 k.tap_key(k.enter_key)
@@ -77,7 +89,7 @@ def handle_touch(value):
         m.release(*m.position())
         last_release = time.time()
         # Clear last position
-        last_client_position = None 
+        last_client_position = None
         print 'Release'
         # Short Click
         if last_release - last_press_down < .1:
@@ -89,6 +101,22 @@ def handle_touch(value):
         if last_press_down - last_click_time < .2:
             m.press(*m.position())
             print 'Long click started'
+
+def handle_scroll(value):
+    global last_client_scroll_position
+    if 'Up' in value:
+        print 'Scroll Ended'
+        last_client_scroll_position = None
+    elif 'Down' in value:
+        print 'Scroll Started'
+        last_client_scroll_position = None
+    else:
+        if last_client_scroll_position is None:
+            last_client_scroll_position = int(value)
+        delta = last_client_scroll_position - int(value)
+        if abs(delta) > SCROLL_STROKE_SIZE:
+            m.scroll(vertical=delta)
+            last_client_scroll_position = int(value)
 
 def move_mouse(message_value):
     global last_client_position

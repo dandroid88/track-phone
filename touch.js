@@ -9,7 +9,6 @@ $( document ).ready(function() {
         connection.send("b.enter");
     });
 
-
     $("#backspace").click( function() {
         connection.send("b.backspace");
     });
@@ -40,13 +39,45 @@ $( document ).ready(function() {
 
     // Helper functions
     function init() {
-        can = document.getElementById("touchpad");
-        ctx = can.getContext("2d");
-        can.addEventListener("mousedown", mouseDown, false);
-        can.addEventListener("mousemove", mouseXY, false);
-        can.addEventListener("touchstart", touchDown, false);
-        can.addEventListener("touchmove", touchXY, true);
-        can.addEventListener("touchend", touchUp, false);
+        initTouchpad()
+        initScrollbar()
+    }
+
+    function initTouchpad() {
+        trackpad = document.getElementById("touchpad");
+        trackpadContext = trackpad.getContext("2d");
+        trackpad.addEventListener("mousedown", mouseDown, false);
+        trackpad.addEventListener("mousemove", mouseXY, false);
+        trackpad.addEventListener("touchstart", touchDown, false);
+        trackpad.addEventListener("touchmove", touchXY, true);
+        trackpad.addEventListener("touchend", touchUp, false);
+    }
+
+    function initScrollbar() {
+        scrollpad = document.getElementById("scrollpad");
+        scrollpadContext = scrollpad.getContext("2d");
+        scrollpad.addEventListener("touchstart", scrollStart, false);
+        scrollpad.addEventListener("touchmove", scrollY, true);
+        scrollpad.addEventListener("touchend", scrollEnd, false);
+    }
+
+    function scrollStart() {
+        mouseIsDown = 1;
+        connection.send("s.Down");
+    }
+
+    function scrollEnd() {
+        mouseIsDown = 0;
+        connection.send("s.Up");
+        scrollY();
+    }
+
+    function scrollY() {
+        if (!e)
+            var e = event;
+        e.preventDefault();
+        scrollpadY = e.targetTouches[0].pageY - scrollpad.offsetTop;
+        connection.send("s." + scrollpadY);
     }
 
     function mouseUp() {
@@ -76,21 +107,21 @@ $( document ).ready(function() {
     function mouseXY(e) {
         if (!e)
             var e = event;
-        canX = e.pageX - can.offsetLeft;
-        canY = e.pageY - can.offsetTop;
-        connection.send("m." + canX + " " + canY);
+        trackpadX = e.pageX - trackpad.offsetLeft;
+        trackpadY = e.pageY - trackpad.offsetTop;
+        connection.send("m." + trackpadX + " " + trackpadY);
     }
 
     function touchXY(e) {
         if (!e)
             var e = event;
         e.preventDefault();
-        canX = e.targetTouches[0].pageX - can.offsetLeft;
-        canY = e.targetTouches[0].pageY - can.offsetTop;
-        connection.send("m." + canX + " " + canY);
+        trackpadX = e.targetTouches[0].pageX - trackpad.offsetLeft;
+        trackpadY = e.targetTouches[0].pageY - trackpad.offsetTop;
+        connection.send("m." + trackpadX + " " + trackpadY);
     }
 
-    var can, ctx, canX, canY, mouseIsDown = 0;
+    var trackpad, trackpadContext, scrollpad, scrollpadContext, trackpadX, trackpadY, mouseIsDown = 0;
     init();
 
 });
