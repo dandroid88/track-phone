@@ -4,8 +4,14 @@ from pymouse import PyMouse
 from pykeyboard import PyKeyboard
 import time
 
+
+# A larger positive integer will increase the rate with which the mouse moves across the screen
+# Valid values are all positive integers
 SPEED = 3
-SCROLL_STROKE_SIZE = 3
+
+# A larger number with make scrolling less sensative (longer strokes will result in less scrolling)
+# Valid values are all positive integers
+SCROLL_SENSATIVITY = 3
 
 class Position:
     def __init__(self, x, y):
@@ -114,8 +120,8 @@ def handle_scroll(value):
         if last_client_scroll_position is None:
             last_client_scroll_position = int(value)
         delta = last_client_scroll_position - int(value)
-        if abs(delta) > SCROLL_STROKE_SIZE:
-            m.scroll(vertical=delta)
+        if abs(delta) > SCROLL_SENSATIVITY:
+            m.scroll(vertical=abs(delta)/delta)
             last_client_scroll_position = int(value)
 
 def move_mouse(message_value):
