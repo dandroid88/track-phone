@@ -8,7 +8,6 @@ body {
 
 .button {
     background-color: #777777;
-    border: 1px solid #111111;
     width: 15%;
     height: 9%;
     float: left;
@@ -18,11 +17,27 @@ body {
     font-size: 50%;
 }
 
-#touchpad {
+#toucharea {
     margin-left: auto;
     margin-right: auto;
-    width: 99%;
+    width: 100%;
     height: 80%;
-    border: 1px solid #111111;
-    background-color: #777777;
+    position: relative;
+    outline: 1px solid #111111;
+}
+
+#touchpad {
+    float:left;
+    width: 85%;
+    background-color: #777;
+    height: 100%;
+    position: absolute;
+}
+
+#scrollpad {
+    width: 15%;
+    background-color: #555;
+    height: 100%;
+    position: absolute;
+    right: 0;
 }
