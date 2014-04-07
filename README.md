@@ -1,6 +1,6 @@
 ## Simple
 <p align="center">
-  <img src="https://raw.github.com/dandroid88/trackphone/master/screenshot.png"/>
+  <img src="https://raw.github.com/dandroid88/track-phone/master/screenshot.png"/>
 </p>
 
 ## Concept
